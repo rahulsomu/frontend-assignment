@@ -1,47 +1,30 @@
 "use client";
 import { ArrowSmallRightIcon, HeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartFilled, StarIcon } from "@heroicons/react/20/solid";
-import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
-import { PropsWithChildren } from "react";
-import "./home.css";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { HeartIcon as HeartFilled } from "@heroicons/react/20/solid";
+import "./products.css";
 import Image from "next/image";
-import logo from "../assets/logo.svg";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import dropDownIcon from "../../assets/dropdown-icon.svg";
+import Link from "next/link";
+import Hamburger from "../components/hamburgerMenu/Hamburger";
+import logo from "../../assets/logo.svg";
 import { usePathname } from "next/navigation";
-import Hamburger from "../app/components/hamburgerMenu/Hamburger";
-
-type Props = { options?: EmblaOptionsType } & PropsWithChildren;
 type pathType = {
   name: string;
   path: string;
 };
-export default function Home() {
+const Products = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [productCategories, setProductCategories] = useState<string[]>([]);
   const [likedProducts, setLikedProducts] = useState<string[]>([]);
-  const [sliderItems, setSliderItems] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [navigationMenuOpen, setNavigationMenuOpen] = useState<boolean>(false);
-  const [count, setCount] = useState(0);
-  let heading = "Logo Electronics".split("");
-  const [headingText, setHeadingText] = useState("");
+
   const pathname = usePathname();
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      if (count < heading.length) {
-        setHeadingText(headingText + heading[count]);
-        setCount((count) => count + 1);
-      } else {
-        setHeadingText(" ");
-        setCount(0);
-      }
-    }, 400);
-
-    return () => clearTimeout(id);
-  }, [count]);
   const paths: pathType[] = [
     {
       name: "Home",
@@ -52,18 +35,36 @@ export default function Home() {
       path: "/products",
     },
   ];
-  const Slider = ({ children, options }: Props) => {
-    const [emblaRef] = useEmblaCarousel({
-      slidesToScroll: 1,
-      align: "start",
-      ...options,
-    });
-
-    return (
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-8">{children}</div>
-      </div>
-    );
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+  const fetchProductsByCategory = async (category: string) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://dummyjson.com/products/category/${category}`
+      );
+      const data = await response.data;
+      setProducts(data.products);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError(true);
+    }
+  };
+  const getAllProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("https://dummyjson.com/products ");
+      const data = await response.data;
+      setProducts(data.products);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError(true);
+    }
   };
 
   const likeProduct = (product: string) => {
@@ -82,25 +83,23 @@ export default function Home() {
     else document.body.style.overflow = "unset";
   }, [navigationMenuOpen]);
   useEffect(() => {
-    const getAllProducts = async () => {
-      setLoading(true);
+    getAllProducts();
+    const getProductCategories = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products ");
+        const response = await axios.get(
+          "https://dummyjson.com/products/categories"
+        );
         const data = await response.data;
-        setProducts(data.products);
-        setSliderItems(data.products);
-        setLoading(false);
+        setProductCategories(data);
       } catch (error) {
         console.log(error);
-        setLoading(false);
-        setError(true);
       }
     };
-    getAllProducts();
+    getProductCategories();
   }, []);
   return (
     <main
-      className="home"
+      className="products"
       style={{
         maxHeight: navigationMenuOpen ? "100vh" : "",
         overflow: navigationMenuOpen ? "hidden" : "",
@@ -140,74 +139,54 @@ export default function Home() {
           </ul>
         </div>
       )}
-      <section className="home-banner">
-        <div className="home-banner-heading">
-          <h1
-            className="font-routhem text-secondary text-left"
-            style={{
-              WebkitTextStroke:
-                headingText.length == heading.length + 1 ? "1px yellow" : "",
-            }}
-          >
-            {`${headingText}`}
-          </h1>
-          <p className="font-bespak">The Techies you Love</p>
-          <Link href="/products">
-            <button>
-              <div className="button-bg"></div>
-              <span className="font-bespak">View all products</span>
-              <div className="icon-container">
-                <ArrowSmallRightIcon className="h-8 w-8" />
-              </div>
-            </button>
-          </Link>
+      <section className="products-banner">
+        <div className="products-banner-heading">
+          <h1 className="font-routhem text-secondary">Products</h1>
         </div>
       </section>
-      <section className="product-slider">
-        {/* <Slider className="product-slider-container"> */}
-        <Slider options={{ align: "center" }}>
-          {sliderItems?.map((item: any) => (
-            <div key={item?.id} className="product-slider-product-wrapper">
-              <div className="product-slider-product">
-                <div className="product-slider-product-image">
-                  <Image
-                    src={item?.thumbnail}
-                    height={300}
-                    width={300}
-                    alt={item?.title}
-                  ></Image>
-                </div>
-                <div className="product-slider-product-info">
-                  <p className="font-bold">
-                    {" "}
-                    {item?.brand?.length > 20
-                      ? item?.brand?.slice(0, 20) + "..."
-                      : item?.brand}
-                  </p>
-                  <p>
-                    {" "}
-                    {item?.title?.length > 20
-                      ? item?.title?.slice(0, 20) + "..."
-                      : item?.title}
-                  </p>
-                  <p className="font-bold">Rs. {item?.price}</p>
-                  <div className="product-slider-product-info-rating">
-                    {[...new Array(Math.floor(item?.rating))].map(
-                      (star, index) => (
-                        <StarIcon key={index} className="h-5 w-5" />
-                      )
-                    )}
-                    <p className="text-[#676767] ml-2">(12)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      </section>
       <section className="products-section">
-        <div className="product-section-heading">
-          <h1 className="font-routhem">Products</h1>
+        <div className="products-section-dropdown">
+          <p className="text-[20px] font-bespak lg:text-[38px] text-[#fff]">
+            {`>> `}All Products
+          </p>
+          <div
+            className={`categoriesDropdown bg-[#f2f2f2] h-[80px] w-[300px] flex justify-between items-center px-10 relative ${
+              dropdownOpen ? "rounded-t-[50px]" : "rounded-[200px]"
+            }`}
+          >
+            <p
+              onClick={() => dropdownOpen && getAllProducts()}
+              className="dropdown-items cursor-pointer"
+            >
+              All Products
+            </p>
+            <button onClick={toggleDropdown}>
+              <Image
+                className={`${
+                  dropdownOpen ? "rotate-180" : "rotate-0"
+                } transition`}
+                src={dropDownIcon}
+                alt="down icon"
+              />
+            </button>
+            <div
+              className={`${
+                dropdownOpen ? "h-[200px]" : "h-[0px]"
+              } dropdown-list absolute top-[80px] left-0 w-[300px] overflow-y-scroll rounded-b-[50px] px-10 bg-[#f2f2f2]`}
+            >
+              <ul>
+                {productCategories?.map((item: string, index) => (
+                  <li
+                    key={index}
+                    onClick={() => fetchProductsByCategory(item)}
+                    className="p-2 cursor-pointer dropdown-items"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
         {loading ? (
           <div className="w-full h-[500px] flex items-center justify-center">
@@ -221,8 +200,8 @@ export default function Home() {
           </div>
         ) : (
           <div className="product-section-products">
-            {products?.slice(0, 6).map((item: any, index) => (
-              <div className="product-card" key={item?.id}>
+            {products?.map((item: any) => (
+              <div key={item?.id} className="product-card">
                 <HeartFilled
                   className="heart"
                   style={{
@@ -266,6 +245,7 @@ export default function Home() {
                   </p>
                 </div>
                 <Link href={`/products/${item?.id}`}>
+                  {" "}
                   <div className="product-card-button-wrapper">
                     <button className="product-card-button">
                       <p className="font-bespak">View</p>
@@ -280,4 +260,6 @@ export default function Home() {
       </section>
     </main>
   );
-}
+};
+
+export default Products;
