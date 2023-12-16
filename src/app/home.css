@@ -491,7 +491,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   .home-banner {
-    min-height: 85vh;
+    min-height: 70vh;
   }
   .product-section-products {
     grid-template-columns: 1fr;
@@ -532,9 +532,8 @@
     right: 20px;
   }
   .product-slider {
-    padding-left: 0px;
+    padding: 0px 20px;
     height: 300px;
-    padding: 0 5px;
     overflow: scroll;
   }
 

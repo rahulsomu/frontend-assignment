@@ -156,6 +156,7 @@
   gap: 80px;
   margin: 0 auto;
   margin-top: 96px;
+  place-items: center;
 }
 .product-card {
   background: white;
