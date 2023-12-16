@@ -31,9 +31,9 @@ const Footer = () => {
             <div className="footer-content-about">
               <Image src={logo} width={120} height={300} alt="company logo" />
               <p>
-                lOGO is simply dummy text of the printing and typesetting
+                {`lOGO is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when
+                text ever since the 1500s, when`}
               </p>
             </div>
             <div className="footer-content-links">

@@ -166,8 +166,8 @@ export default function Home() {
       <section className="product-slider">
         {/* <Slider className="product-slider-container"> */}
         <Slider options={{ align: "center" }}>
-          {sliderItems?.map((item: any) => (
-            <div key={item?.id} className="product-slider-product-wrapper">
+          {sliderItems?.map((item: any, index) => (
+            <div key={index} className="product-slider-product-wrapper">
               <div className="product-slider-product">
                 <div className="product-slider-product-image">
                   <Image

@@ -163,9 +163,11 @@ const ProductDetails = ({ params }: any) => {
                 <div className="product-info-card-details">
                   <p className="product-info-name">{product?.title}</p>
                   <div className="product-info-rating">
-                    {[...new Array(Math.floor(product?.rating))].map(() => (
-                      <StarIcon className="h-5 w-5 " />
-                    ))}
+                    {[...new Array(Math.floor(product?.rating))].map(
+                      (star, index) => (
+                        <StarIcon key={index} className="h-5 w-5 " />
+                      )
+                    )}
                   </div>
                   <p className="product-info-description">
                     {product?.description}
