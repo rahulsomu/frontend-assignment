@@ -181,7 +181,7 @@ const ProductDetails = ({ params }: any) => {
                 </div>
               </div>
             </div>
-            <Slider options={{ align: "center" }}>
+            <div className="flex flex-wrap gap-8 items-center justify-center">
               {product?.images.map((image: string, index) => (
                 <div key={index} className="product-image-wrapper">
                   <div className="product-image">
@@ -194,7 +194,7 @@ const ProductDetails = ({ params }: any) => {
                   </div>
                 </div>
               ))}
-            </Slider>
+            </div>
           </section>
         )
       )}

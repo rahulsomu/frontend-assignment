@@ -170,7 +170,7 @@
 .heart {
   color: #df0000;
   position: absolute;
-  top: 40px;
+  top: 90px;
   left: 50%;
   transform: translateX(-50%);
   height: 250px;
@@ -351,6 +351,9 @@
 }
 
 @media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
   .products-banner-heading h1 {
     font-size: 48px;
   }

@@ -52,19 +52,6 @@ export default function Home() {
       path: "/products",
     },
   ];
-  const Slider = ({ children, options }: Props) => {
-    const [emblaRef] = useEmblaCarousel({
-      slidesToScroll: 1,
-      align: "start",
-      ...options,
-    });
-
-    return (
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-8">{children}</div>
-      </div>
-    );
-  };
 
   const likeProduct = (product: string) => {
     if (!likedProducts.includes(product)) {
@@ -88,7 +75,7 @@ export default function Home() {
         const response = await axios.get("https://dummyjson.com/products ");
         const data = await response.data;
         setProducts(data.products);
-        setSliderItems(data.products);
+        setSliderItems(data.products?.slice(0, 4));
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -164,46 +151,43 @@ export default function Home() {
         </div>
       </section>
       <section className="product-slider">
-        {/* <Slider className="product-slider-container"> */}
-        <Slider options={{ align: "center" }}>
-          {sliderItems?.map((item: any, index) => (
-            <div key={index} className="product-slider-product-wrapper">
-              <div className="product-slider-product">
-                <div className="product-slider-product-image">
-                  <Image
-                    src={item?.thumbnail}
-                    height={300}
-                    width={300}
-                    alt={item?.title}
-                  ></Image>
-                </div>
-                <div className="product-slider-product-info">
-                  <p className="font-bold">
-                    {" "}
-                    {item?.brand?.length > 20
-                      ? item?.brand?.slice(0, 20) + "..."
-                      : item?.brand}
-                  </p>
-                  <p>
-                    {" "}
-                    {item?.title?.length > 20
-                      ? item?.title?.slice(0, 20) + "..."
-                      : item?.title}
-                  </p>
-                  <p className="font-bold">Rs. {item?.price}</p>
-                  <div className="product-slider-product-info-rating">
-                    {[...new Array(Math.floor(item?.rating))].map(
-                      (star, index) => (
-                        <StarIcon key={index} className="h-5 w-5" />
-                      )
-                    )}
-                    <p className="text-[#676767] ml-2">(12)</p>
-                  </div>
+        {sliderItems?.map((item: any, index) => (
+          <div key={index} className="product-slider-product-wrapper">
+            <div className="product-slider-product">
+              <div className="product-slider-product-image">
+                <Image
+                  src={item?.thumbnail}
+                  height={300}
+                  width={300}
+                  alt={item?.title}
+                ></Image>
+              </div>
+              <div className="product-slider-product-info">
+                <p className="font-bold ">
+                  {" "}
+                  {item?.brand?.length > 20
+                    ? item?.brand?.slice(0, 20) + "..."
+                    : item?.brand}
+                </p>
+                <p>
+                  {" "}
+                  {item?.title?.length > 20
+                    ? item?.title?.slice(0, 20) + "..."
+                    : item?.title}
+                </p>
+                <p className="font-bold">Rs. {item?.price}</p>
+                <div className="product-slider-product-info-rating">
+                  {[...new Array(Math.floor(item?.rating))].map(
+                    (star, index) => (
+                      <StarIcon key={index} className="h-5 w-5" />
+                    )
+                  )}
+                  <p className="text-[#676767] ml-2">(12)</p>
                 </div>
               </div>
             </div>
-          ))}
-        </Slider>
+          </div>
+        ))}
       </section>
       <section className="products-section">
         <div className="product-section-heading">

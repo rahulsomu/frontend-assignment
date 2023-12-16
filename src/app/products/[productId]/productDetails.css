@@ -266,4 +266,8 @@
   .product-info-rating {
     justify-content: center;
   }
+  .product-image-wrapper {
+    width: 120px;
+    height: 120px;
+  }
 }
