@@ -225,9 +225,7 @@
   width: 100%;
   transition: 0.3s;
 }
-.product-card:hover .product-card-image img {
-  height: 160px;
-}
+
 .product-card-name {
   width: 100%;
   text-align: center;
@@ -237,9 +235,7 @@
   font-weight: 500;
   transition: 0.3s;
 }
-.product-card:hover .product-card-name p {
-  opacity: 0;
-}
+
 .product-card-button-wrapper {
   background: linear-gradient(
     90deg,
@@ -262,9 +258,7 @@
   border-radius: 999px;
   width: 80%;
 }
-.product-card-button-wrapper:hover .product-card-button {
-  background: #fff;
-}
+
 .product-card-button {
   width: 100%;
   background: linear-gradient(
@@ -291,34 +285,11 @@
   font-size: 25px;
   transition: 0.3s;
 }
-.product-card-button-wrapper:hover .product-card-button p {
-  background: linear-gradient(
-    90deg,
-    #920aa8 2%,
-    #e019cc 20%,
-    #ff81e3 48%,
-    #fc75d6 52%,
-    #df55f6 60%,
-    #e822ec 71%,
-    #e80f91 75%,
-    #ee19d8 81.25%,
-    #f323b7 87.5%,
-    #fe3873 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transform: translateX(30px);
-}
+
 .product-card-button svg {
   stroke-width: 3px;
   border: 3px solid black;
   border-radius: 99px;
-}
-.product-card-button-wrapper:hover .product-card-button svg {
-  animation: 0.3s linear slideIn;
-  color: #fff;
-  border: 3px solid #fff;
 }
 
 .dropdown-items {
@@ -414,9 +385,7 @@
   .home-banner-heading button span {
     font-size: 12px;
   }
-  .home-banner-heading button:hover span {
-    font-size: 14px;
-  }
+
   .home-banner-heading button .icon-container {
     height: 30px;
     width: 30px;
@@ -449,5 +418,47 @@
     border: 4px solid black;
     width: 35px;
     height: 35px;
+  }
+}
+
+@media (hover: hover) {
+  .product-card:hover .product-card-image img {
+    height: 160px;
+  }
+  .product-card:hover .product-card-name p {
+    opacity: 0;
+  }
+  .product-card-button-wrapper:hover .product-card-button {
+    background: #fff;
+  }
+  .product-card-button-wrapper:hover .product-card-button p {
+    background: linear-gradient(
+      90deg,
+      #920aa8 2%,
+      #e019cc 20%,
+      #ff81e3 48%,
+      #fc75d6 52%,
+      #df55f6 60%,
+      #e822ec 71%,
+      #e80f91 75%,
+      #ee19d8 81.25%,
+      #f323b7 87.5%,
+      #fe3873 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateX(30px);
+  }
+  .product-card-button-wrapper:hover .product-card-button svg {
+    animation: 0.3s linear slideIn;
+    color: #fff;
+    border: 3px solid #fff;
+  }
+  .product-card:hover .product-card-image img {
+    height: 160px;
+  }
+  .home-banner-heading button:hover span {
+    font-size: 14px;
   }
 }
